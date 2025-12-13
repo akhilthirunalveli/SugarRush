@@ -7,15 +7,15 @@ const purchaseSweet = async (sweetId, purchaseQty) => {
         throw new Error('Sweet not found');
     }
 
-    if (sweet.quantity === 0) {
+    if (sweet.quantity <= 0) {
         throw new Error('Out of stock');
     }
 
-    if (sweet.quantity < purchaseQty) {
+    if (purchaseQty > sweet.quantity) {
         throw new Error('Insufficient stock');
     }
 
-    sweet.quantity -= purchaseQty;
+    sweet.quantity = sweet.quantity - purchaseQty;
     await sweet.save();
 
     return sweet;
