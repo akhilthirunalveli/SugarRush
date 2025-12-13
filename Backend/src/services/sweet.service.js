@@ -3,17 +3,9 @@ const Sweet = require('../models/Sweet');
 const purchaseSweet = async (sweetId, purchaseQty) => {
     const sweet = await Sweet.findById(sweetId);
 
-    if (!sweet) {
-        throw new Error('Sweet not found');
-    }
-
-    if (sweet.quantity <= 0) {
-        throw new Error('Out of stock');
-    }
-
-    if (purchaseQty > sweet.quantity) {
-        throw new Error('Insufficient stock');
-    }
+    if (!sweet) throw new Error('Sweet not found');
+    if (sweet.quantity <= 0) throw new Error('Out of stock');
+    if (purchaseQty > sweet.quantity) throw new Error('Insufficient stock');
 
     sweet.quantity -= purchaseQty;
     await sweet.save();
@@ -31,10 +23,7 @@ const restockSweet = async (sweetId, restockQty, user) => {
     }
 
     const sweet = await Sweet.findById(sweetId);
-
-    if (!sweet) {
-        throw new Error('Sweet not found');
-    }
+    if (!sweet) throw new Error('Sweet not found');
 
     sweet.quantity += restockQty;
     await sweet.save();
@@ -42,30 +31,21 @@ const restockSweet = async (sweetId, restockQty, user) => {
     return sweet;
 };
 
-const searchSweets = async (filters) => {
+const searchSweets = async ({ name, category, minPrice, maxPrice }) => {
     const query = {};
 
-    if (filters.name) {
-        query.name = {
-            $regex: filters.name,
-            $options: 'i',
-        };
+    if (name) {
+        query.name = { $regex: name, $options: 'i' };
     }
 
-    if (filters.category) {
-        query.category = filters.category;
+    if (category) {
+        query.category = category;
     }
 
-    if (filters.minPrice || filters.maxPrice) {
+    if (minPrice || maxPrice) {
         query.price = {};
-
-        if (filters.minPrice) {
-            query.price.$gte = Number(filters.minPrice);
-        }
-
-        if (filters.maxPrice) {
-            query.price.$lte = Number(filters.maxPrice);
-        }
+        if (minPrice) query.price.$gte = Number(minPrice);
+        if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
     return Sweet.find(query);
