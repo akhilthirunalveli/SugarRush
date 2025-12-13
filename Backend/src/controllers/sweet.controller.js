@@ -81,3 +81,12 @@ exports.restockSweet = async (req, res, next) => {
         next(err);
     }
 };
+
+exports.searchSweets = async (req, res, next) => {
+    try {
+        const sweets = await sweetService.searchSweets(req.query);
+        res.json(sweets);
+    } catch (err) {
+        next(err);
+    }
+};

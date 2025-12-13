@@ -15,4 +15,7 @@ router.delete('/:id', adminOnly, sweetController.deleteSweet);
 router.post('/:id/purchase', sweetController.purchaseSweet);
 router.post('/:id/restock', adminOnly, sweetController.restockSweet);
 
+router.get('/search', sweetController.searchSweets);
+
 module.exports = router;
+
