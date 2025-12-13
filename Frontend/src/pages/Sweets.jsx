@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../auth/AuthContext';
 import SweetCard from '../components/SweetCard';
+import SearchBar from '../components/SearchBar';
+
 
 function Sweets() {
     const { logout } = useAuth();
@@ -22,6 +24,17 @@ function Sweets() {
             console.error('Failed to fetch sweets');
         }
     };
+    const handleSearch = async (filters) => {
+        try {
+            const res = await api.get('/sweets/search', {
+                params: filters,
+            });
+            setSweets(res.data);
+        } catch (err) {
+            console.error('Search failed');
+        }
+    };
+
 
     useEffect(() => {
         fetchSweets();
@@ -97,6 +110,7 @@ function Sweets() {
             <button onClick={handleAddSweet}>Add Sweet</button>
 
             <hr />
+            <SearchBar onSearch={handleSearch} />
 
             {/* Sweets List */}
             <h3>Available Sweets</h3>
