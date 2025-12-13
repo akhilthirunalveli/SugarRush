@@ -6,7 +6,7 @@ import SearchBar from '../components/SearchBar';
 
 
 function Sweets() {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
 
     const [sweets, setSweets] = useState([]);
     const [newSweet, setNewSweet] = useState({
@@ -68,48 +68,48 @@ function Sweets() {
 
             <button onClick={logout}>Logout</button>
 
-            <hr />
-
             {/* Add Sweet Section */}
-            <h3>Add Sweet (Admin)</h3>
+            {user?.role === 'admin' && (
+                <>
+                    <h3>Add Sweet (Admin)</h3>
+                    <input
+                        placeholder="Name"
+                        value={newSweet.name}
+                        onChange={(e) =>
+                            setNewSweet({ ...newSweet, name: e.target.value })
+                        }
+                    />
 
-            <input
-                placeholder="Name"
-                value={newSweet.name}
-                onChange={(e) =>
-                    setNewSweet({ ...newSweet, name: e.target.value })
-                }
-            />
+                    <input
+                        placeholder="Category"
+                        value={newSweet.category}
+                        onChange={(e) =>
+                            setNewSweet({ ...newSweet, category: e.target.value })
+                        }
+                    />
 
-            <input
-                placeholder="Category"
-                value={newSweet.category}
-                onChange={(e) =>
-                    setNewSweet({ ...newSweet, category: e.target.value })
-                }
-            />
+                    <input
+                        type="number"
+                        placeholder="Price"
+                        value={newSweet.price}
+                        onChange={(e) =>
+                            setNewSweet({ ...newSweet, price: e.target.value })
+                        }
+                    />
 
-            <input
-                type="number"
-                placeholder="Price"
-                value={newSweet.price}
-                onChange={(e) =>
-                    setNewSweet({ ...newSweet, price: e.target.value })
-                }
-            />
+                    <input
+                        type="number"
+                        placeholder="Quantity"
+                        value={newSweet.quantity}
+                        onChange={(e) =>
+                            setNewSweet({ ...newSweet, quantity: e.target.value })
+                        }
+                    />
 
-            <input
-                type="number"
-                placeholder="Quantity"
-                value={newSweet.quantity}
-                onChange={(e) =>
-                    setNewSweet({ ...newSweet, quantity: e.target.value })
-                }
-            />
+                    <button onClick={handleAddSweet}>Add Sweet</button>
+                </>
+            )}
 
-            <button onClick={handleAddSweet}>Add Sweet</button>
-
-            <hr />
             <SearchBar onSearch={handleSearch} />
 
             {/* Sweets List */}

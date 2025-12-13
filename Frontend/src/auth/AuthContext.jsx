@@ -3,66 +3,58 @@ import api from '../api/axios';
 
 const AuthContext = createContext(null);
 
+const parseJwt = (token) => {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch {
+        return null;
+    }
+};
+
 export const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(() => {
-        return localStorage.getItem('token');
-    });
-
-    const [isAuthenticated, setIsAuthenticated] = useState(
-        !!localStorage.getItem('token')
+    const [token, setToken] = useState(
+        localStorage.getItem('token')
     );
+    const [user, setUser] = useState(null);
 
-    // Sync token with localStorage
     useEffect(() => {
         if (token) {
+            const decoded = parseJwt(token);
+            setUser(decoded);
             localStorage.setItem('token', token);
-            setIsAuthenticated(true);
         } else {
+            setUser(null);
             localStorage.removeItem('token');
-            setIsAuthenticated(false);
         }
     }, [token]);
 
-    // LOGIN
     const login = async (email, password) => {
-        try {
-            const res = await api.post('/auth/login', {
-                email,
-                password,
-            });
-
-            setToken(res.data.token);
-        } catch (err) {
-            throw err; // let UI handle error message
-        }
+        const res = await api.post('/auth/login', {
+            email,
+            password,
+        });
+        setToken(res.data.token);
     };
 
-    // REGISTER
     const register = async (email, password, role) => {
-        try {
-            const res = await api.post('/auth/register', {
-                email,
-                password,
-                role,
-            });
-
-            setToken(res.data.token);
-        } catch (err) {
-            throw err; // let UI handle error message
-        }
+        const res = await api.post('/auth/register', {
+            email,
+            password,
+            role,
+        });
+        setToken(res.data.token);
     };
 
-    // LOGOUT
     const logout = () => {
         setToken(null);
-        localStorage.removeItem('token');
+        setUser(null);
     };
 
     return (
         <AuthContext.Provider
             value={{
                 token,
-                isAuthenticated,
+                user,
                 login,
                 register,
                 logout,
@@ -73,12 +65,4 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export const useAuth = () => {
-    const context = useContext(AuthContext);
-
-    if (!context) {
-        throw new Error('useAuth must be used within AuthProvider');
-    }
-
-    return context;
-};
+export const useAuth = () => useContext(AuthContext);
