@@ -8,7 +8,7 @@ router.use(protect);
 
 router.post('/', sweetController.createSweet);
 router.get('/', sweetController.getAllSweets);
-router.put('/:id', sweetController.updateSweet);
+router.put('/:id', adminOnly, sweetController.updateSweet);
 
 router.delete('/:id', adminOnly, sweetController.deleteSweet);
 
