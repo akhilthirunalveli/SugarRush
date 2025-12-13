@@ -1,19 +1,22 @@
 const express = require('express');
+const cors = require('cors');
 const errorHandler = require('./middlewares/errorHandler');
-const healthRoutes = require('./routes/health.routes');
+
 const authRoutes = require('./routes/auth.routes');
 const sweetRoutes = require('./routes/sweet.routes');
 
 const app = express();
 
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
+
 app.use(express.json());
 
-app.use('/health', healthRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/sweets', sweetRoutes);
 
 app.use(errorHandler);
-
-app.use('/api/auth', authRoutes);
-
-app.use('/api/sweets', sweetRoutes);
 
 module.exports = app;
