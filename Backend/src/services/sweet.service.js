@@ -21,6 +21,28 @@ const purchaseSweet = async (sweetId, purchaseQty) => {
     return sweet;
 };
 
+const restockSweet = async (sweetId, restockQty, user) => {
+    if (!user || user.role !== 'admin') {
+        throw new Error('Admin access required');
+    }
+
+    if (restockQty <= 0) {
+        throw new Error('Invalid restock quantity');
+    }
+
+    const sweet = await Sweet.findById(sweetId);
+
+    if (!sweet) {
+        throw new Error('Sweet not found');
+    }
+
+    sweet.quantity = sweet.quantity + restockQty;
+    await sweet.save();
+
+    return sweet;
+};
+
 module.exports = {
     purchaseSweet,
+    restockSweet,
 };
