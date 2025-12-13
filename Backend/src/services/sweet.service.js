@@ -42,7 +42,37 @@ const restockSweet = async (sweetId, restockQty, user) => {
     return sweet;
 };
 
+const searchSweets = async (filters) => {
+    const query = {};
+
+    if (filters.name) {
+        query.name = {
+            $regex: filters.name,
+            $options: 'i',
+        };
+    }
+
+    if (filters.category) {
+        query.category = filters.category;
+    }
+
+    if (filters.minPrice || filters.maxPrice) {
+        query.price = {};
+
+        if (filters.minPrice) {
+            query.price.$gte = Number(filters.minPrice);
+        }
+
+        if (filters.maxPrice) {
+            query.price.$lte = Number(filters.maxPrice);
+        }
+    }
+
+    return Sweet.find(query);
+};
+
 module.exports = {
     purchaseSweet,
     restockSweet,
+    searchSweets,
 };
