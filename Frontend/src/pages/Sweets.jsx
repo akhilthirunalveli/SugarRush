@@ -1,5 +1,14 @@
+import { useAuth } from '../auth/AuthContext';
+
 function Sweets() {
-    return <h2>Sweets List</h2>;
+    const { logout } = useAuth();
+
+    return (
+        <div>
+            <h2>Sweets List</h2>
+            <button onClick={logout}>Logout</button>
+        </div>
+    );
 }
 
 export default Sweets;
