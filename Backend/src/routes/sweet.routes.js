@@ -4,18 +4,17 @@ const router = express.Router();
 const sweetController = require('../controllers/sweet.controller');
 const { protect, adminOnly } = require('../middlewares/auth.middleware');
 
-router.use(protect);
-
-router.post('/', sweetController.createSweet);
+// Public routes
 router.get('/', sweetController.getAllSweets);
-router.put('/:id', adminOnly, sweetController.updateSweet);
-
-router.delete('/:id', adminOnly, sweetController.deleteSweet);
-
-router.post('/:id/purchase', sweetController.purchaseSweet);
-router.post('/:id/restock', adminOnly, sweetController.restockSweet);
-
 router.get('/search', sweetController.searchSweets);
+
+// Protected routes
+router.post('/', protect, adminOnly, sweetController.createSweet);
+router.put('/:id', protect, adminOnly, sweetController.updateSweet);
+router.delete('/:id', protect, adminOnly, sweetController.deleteSweet);
+
+router.post('/:id/purchase', protect, sweetController.purchaseSweet);
+router.post('/:id/restock', protect, adminOnly, sweetController.restockSweet);
 
 module.exports = router;
 
