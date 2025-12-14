@@ -103,6 +103,28 @@ npm run dev
 
 That's it! access the link shown in the terminal (usually `http://localhost:5173`) to verify the application.
 
+
+
+## Snapshots 📸
+
+![Homepage](Frontend/public/Homepage.png)
+*Homepage - Where the sweetness begins*
+
+![Register](Frontend/public/Register.png)
+*Register - Join the community*
+
+![Login](Frontend/public/Login.png)
+*Login - Access your account*
+
+![Admin Dashboard](Frontend/public/Admin.png)
+*Admin Dashboard - Manage the shop*
+
+![Admin Edit Sweet](Frontend/public/Admin_Edit.png)
+*Admin Edit Sweet - Update inventory*
+
+![Shopping Cart](Frontend/public/cart.png)
+*Shopping Cart - Your selected treats*
+
 ---
 
 Thanks for checking out my work! 🚀
