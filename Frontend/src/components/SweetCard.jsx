@@ -17,6 +17,11 @@ function SweetCard({ sweet, onAction, triggerLogin }) {
     });
 
     const handleAddToCart = () => {
+        if (!user) {
+            triggerLogin();
+            return;
+        }
+
         if (sweet.quantity === 0) return;
 
         addToCart(sweet, quantity);
