@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
-import { LogOut, ShoppingBag, User } from 'lucide-react';
+import { useCart } from '../context/CartContext';
+import { LogOut, ShoppingBag, User, ShoppingCart } from 'lucide-react';
 
 
 const Navbar = () => {
     const { logout, user } = useAuth();
+    const { cartCount } = useCart();
     const navigate = useNavigate();
 
     const onLogout = () => {
@@ -28,7 +30,16 @@ const Navbar = () => {
                     </Link>
 
                     {/* Actions */}
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-4">
+                        <Link to="/cart" className="relative p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-full transition-all duration-200">
+                            <ShoppingCart size={20} className="stroke-[1.5]" />
+                            {cartCount > 0 && (
+                                <span className="absolute top-0 right-0 w-4 h-4 bg-primary text-[10px] font-bold text-white flex items-center justify-center rounded-full shadow-sm">
+                                    {cartCount}
+                                </span>
+                            )}
+                        </Link>
+
                         {user ? (
                             <div className="flex items-center ">
                                 <button

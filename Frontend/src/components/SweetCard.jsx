@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import api from '../api/axios';
 import { useAuth } from '../auth/AuthContext';
+import { useCart } from '../context/CartContext';
 import { Pencil, Trash2, RotateCcw, Plus, Minus, ShoppingCart } from 'lucide-react';
 
 function SweetCard({ sweet, onAction, triggerLogin }) {
     const { user } = useAuth();
+    const { addToCart } = useCart();
     const [quantity, setQuantity] = useState(1);
     const [isEditing, setIsEditing] = useState(false);
     const [editData, setEditData] = useState({
@@ -14,21 +16,12 @@ function SweetCard({ sweet, onAction, triggerLogin }) {
         quantity: sweet.quantity,
     });
 
-    const handlePurchase = async () => {
-        if (!user) {
-            triggerLogin && triggerLogin();
-            return;
-        }
-        try {
-            await api.post(`/sweets/${sweet._id}/purchase`, {
-                quantity: Number(quantity),
-            });
-            onAction();
-            setQuantity(1);
-        } catch (error) {
-            console.error('Purchase failed', error);
-            alert('Purchase failed');
-        }
+    const handleAddToCart = () => {
+        if (sweet.quantity === 0) return;
+
+        addToCart(sweet, quantity);
+        setQuantity(1);
+        // Optional: Add visual feedback toast here
     };
 
     const handleRestock = async () => {
@@ -157,7 +150,7 @@ function SweetCard({ sweet, onAction, triggerLogin }) {
                         </div>
 
                         <button
-                            onClick={handlePurchase}
+                            onClick={handleAddToCart}
                             disabled={sweet.quantity === 0}
                             className={`flex-1 h-10 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center justify-center gap-2 ${sweet.quantity === 0
                                 ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200 cursor-pointer"
