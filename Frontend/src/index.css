@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+    --font-display: "Urbanist", sans-serif;
+    --breakpoint-3xl: 1920px;
+    --color-primary: #FF9324;
+}
+
+@layer base {
+    html {
+        font-family: var(--font-display);
+    }
+
+    body {
+        background-color: #fafafaf7;
+        background-image: radial-gradient(#d9d9d9 1px, transparent 1px);
+        background-size: 24px 24px;
+    }
+}
+
+@layer components {
+    .btn-primary {
+        @apply w-full py-2.5 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-all cursor-pointer flex items-center justify-center;
+    }
+
+    .input-field {
+        @apply w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-200/20 focus:border-slate-200 text-sm transition-all bg-white placeholder:text-slate-400 text-slate-700;
+    }
+
+    .card-base {
+        @apply bg-white rounded-2xl border border-slate-100 overflow-hidden hover:border-slate-200 transition-all shadow-sm;
+    }
+}
