@@ -12,6 +12,7 @@ router.get('/search', sweetController.searchSweets);
 router.post('/', protect, adminOnly, sweetController.createSweet);
 router.put('/:id', protect, adminOnly, sweetController.updateSweet);
 router.delete('/:id', protect, adminOnly, sweetController.deleteSweet);
+router.post('/:id/amount', sweetController.calculateamount);
 
 router.post('/:id/purchase', protect, sweetController.purchaseSweet);
 router.post('/:id/restock', protect, adminOnly, sweetController.restockSweet);

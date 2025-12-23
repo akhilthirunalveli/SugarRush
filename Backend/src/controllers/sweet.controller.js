@@ -90,3 +90,28 @@ exports.searchSweets = async (req, res, next) => {
         next(err);
     }
 };
+
+
+exports.calculateamount = async (req, res, next) => {
+    try {
+        const { quantity } = req.body;
+        if (!quantity || quantity <= 0) {
+            return res.status(400).json({ message: 'Invalid quantity' });
+        }
+        const sweet = await Sweet.findById(req.params.id).select('price');
+        if (!sweet) {
+            return res.status(404).json({ message: 'Sweet not found' });
+        }
+
+        const amount = sweet.price * quantity;
+        res.json({
+            id: sweet._id,
+            price: sweet.price,
+            amount
+        });
+
+    } catch (err) {
+        next(err);
+    }
+
+};
