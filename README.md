@@ -20,6 +20,11 @@ I built this project using the **MERN** stack because I love how JavaScript work
 - **Bcryptjs**: To encrypt passwords (safety first!).
 - **Jest & Supertest**: For robust testing of all my API endpoints.
 
+### AI Usage in my project: 
+- I Implemented Admin form from using Chatgpt and then manually retified it.
+- I also implemented Cart feature from GPT fully then fixed the stock count issue.
+
+
 ## My Development Process (TDD) 🧪
 
 I didn't just write code; I built this project using a strict **Test-Driven Development (TDD)** approach.
